@@ -32,51 +32,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Margins
     $pdf->SetMargins(10, 10, 10);
-    $pdf->SetAutoPageBreak(TRUE, 10);
+    $pdf->SetAutoPageBreak(false, 10); // Disable auto page break to control layout
 
     // Add a page
     $pdf->AddPage();
 
     // --- Content ---
-    $pdf->SetFont('helvetica', '', 10);
+    $pdf->SetFont('times', '', 11); // Set base font to Times
 
-    // HTML for a single exit slip
+    // HTML for a single exit slip with adjusted styles
     $html_content = '
-    <style>
-        .slip-container {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin: 5px;
-        }
-        .header {
-            text-align: center;
-            font-weight: bold;
-            font-size: 12px;
-            margin-bottom: 10px;
-        }
-        .field {
-            margin-bottom: 8px;
-        }
-        .label {
-            font-weight: bold;
-        }
-        .signature {
-            text-align: center;
-            margin-top: 30px;
-            border-top: 1px solid #000;
-            width: 60%;
-            margin-left: 20%;
-        }
-    </style>
-    <div class="slip-container">
-        <div class="header">PAPELETA DE SALIDA N° ' . $exit_slip_no . '</div>
-        <div class="field"><span class="label">Nombres y Apellidos:</span> ' . $full_name . '</div>
-        <div class="field"><span class="label">Motivo de Salida:</span> ' . $reason . '</div>
-        <div class="field"><span class="label">Lugar de Destino:</span> ' . $destination . '</div>
-        <div class="field"><span class="label">Distrito:</span> ' . $district . '</div>
-        <div class="field"><span class="label">Fecha:</span> ' . date("d/m/Y", strtotime($date)) . '</div>
-        <div class="signature">FIRMA</div>
-    </div>
+    <table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; width: 100%; font-family: times, serif;">
+        <tr>
+            <td colspan="2" style="text-align: center; font-weight: bold; font-size: 14pt;">PAPELETA DE SALIDA N° ' . $exit_slip_no . '</td>
+        </tr>
+        <tr>
+            <td width="35%" style="font-weight: bold; font-size: 11pt;">Nombres y Apellidos:</td>
+            <td width="65%" style="font-size: 11pt;">' . $full_name . '</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold; font-size: 11pt;">Motivo de Salida:</td>
+            <td style="font-size: 11pt;">' . $reason . '</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold; font-size: 11pt;">Lugar de Destino:</td>
+            <td style="font-size: 11pt;">' . $destination . '</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold; font-size: 11pt;">Distrito:</td>
+            <td style="font-size: 11pt;">' . $district . '</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold; font-size: 11pt;">Fecha:</td>
+            <td style="font-size: 11pt;">' . date("d/m/Y", strtotime($date)) . '</td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 70px; text-align: center; vertical-align: bottom;">
+                <div style="width: 60%; border-top: 1px solid #000; margin: 0 auto; padding-top: 5px; font-size: 11pt;">FIRMA</div>
+            </td>
+        </tr>
+    </table>
     ';
 
     // Calculate dimensions
@@ -84,18 +79,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $page_height = $pdf->getPageHeight();
     $margin_left = $pdf->getMargins()['left'];
     $margin_right = $pdf->getMargins()['right'];
+    $margin_top = $pdf->getMargins()['top'];
+    $margin_bottom = $pdf->getMargins()['bottom'];
+
     $usable_width = $page_width - $margin_left - $margin_right;
-    $half_width = $usable_width / 2;
+    $usable_height = $page_height - $margin_top - $margin_bottom;
+    $half_height = $usable_height / 2;
+    $mid_point_y = $page_height / 2;
 
-    // First copy (left)
-    $pdf->writeHTMLCell($half_width - 5, 0, $margin_left, 10, $html_content, 0, 1, 0, true, 'J', true);
+    // First copy (top)
+    $pdf->writeHTMLCell($usable_width, $half_height, $margin_left, $margin_top, $html_content, 0, 1, 0, true, 'J', true);
 
-    // Second copy (right)
-    $pdf->writeHTMLCell($half_width - 5, 0, $margin_left + $half_width + 5, 10, $html_content, 0, 1, 0, true, 'J', true);
+    // Second copy (bottom)
+    $pdf->writeHTMLCell($usable_width, $half_height, $margin_left, $mid_point_y + 5, $html_content, 0, 1, 0, true, 'J', true);
 
     // Dotted line in the middle
     $pdf->SetLineStyle(array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => '2,2', 'color' => array(0, 0, 0)));
-    $pdf->Line($page_width / 2, 10, $page_width / 2, $page_height - 10);
+    $pdf->Line($margin_left, $mid_point_y, $page_width - $margin_right, $mid_point_y);
 
     // --- Output ---
     $filename = 'Papeleta_Salida_' . str_replace(' ', '_', $full_name) . '.pdf';
