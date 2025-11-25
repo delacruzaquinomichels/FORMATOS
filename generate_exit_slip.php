@@ -38,37 +38,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pdf->AddPage();
 
     // --- Content ---
-    $pdf->SetFont('times', '', 11); // Set base font to Times
+    $pdf->SetFont('helvetica', '', 10);
 
-    // HTML for a single exit slip with adjusted styles
+    // HTML for a single exit slip with modern font and underlined fields
     $html_content = '
-    <table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; width: 100%; font-family: times, serif;">
+    <table border="0" cellpadding="6" cellspacing="0" style="width: 100%; font-family: helvetica, sans-serif;">
         <tr>
-            <td colspan="2" style="text-align: center; font-weight: bold; font-size: 14pt;">PAPELETA DE SALIDA N° ' . $exit_slip_no . '</td>
+            <td colspan="2" style="text-align: center; font-weight: bold; font-size: 14pt; border-bottom: 1px solid #000;">PAPELETA DE SALIDA N° ' . $exit_slip_no . '</td>
         </tr>
         <tr>
-            <td width="35%" style="font-weight: bold; font-size: 11pt;">Nombres y Apellidos:</td>
-            <td width="65%" style="font-size: 11pt;">' . $full_name . '</td>
+            <td width="35%" style="font-weight: bold; font-size: 10pt;">Nombres y Apellidos:</td>
+            <td width="65%" style="font-size: 10pt; border-bottom: 1px solid #999;">' . $full_name . '</td>
         </tr>
         <tr>
-            <td style="font-weight: bold; font-size: 11pt;">Motivo de Salida:</td>
-            <td style="font-size: 11pt;">' . $reason . '</td>
+            <td style="font-weight: bold; font-size: 10pt;">Motivo de Salida:</td>
+            <td style="font-size: 10pt; border-bottom: 1px solid #999;">' . $reason . '</td>
         </tr>
         <tr>
-            <td style="font-weight: bold; font-size: 11pt;">Lugar de Destino:</td>
-            <td style="font-size: 11pt;">' . $destination . '</td>
+            <td style="font-weight: bold; font-size: 10pt;">Lugar de Destino:</td>
+            <td style="font-size: 10pt; border-bottom: 1px solid #999;">' . $destination . '</td>
         </tr>
         <tr>
-            <td style="font-weight: bold; font-size: 11pt;">Distrito:</td>
-            <td style="font-size: 11pt;">' . $district . '</td>
+            <td style="font-weight: bold; font-size: 10pt;">Distrito:</td>
+            <td style="font-size: 10pt; border-bottom: 1px solid #999;">' . $district . '</td>
         </tr>
         <tr>
-            <td style="font-weight: bold; font-size: 11pt;">Fecha:</td>
-            <td style="font-size: 11pt;">' . date("d/m/Y", strtotime($date)) . '</td>
+            <td style="font-weight: bold; font-size: 10pt;">Fecha:</td>
+            <td style="font-size: 10pt; border-bottom: 1px solid #999;">' . date("d/m/Y", strtotime($date)) . '</td>
         </tr>
         <tr>
             <td colspan="2" style="height: 70px; text-align: center; vertical-align: bottom;">
-                <div style="width: 60%; border-top: 1px solid #000; margin: 0 auto; padding-top: 5px; font-size: 11pt;">FIRMA</div>
+                <div style="width: 60%; border-top: 1px solid #000; margin: 0 auto; padding-top: 5px; font-size: 10pt;">FIRMA</div>
             </td>
         </tr>
     </table>
