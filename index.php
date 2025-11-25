@@ -25,11 +25,11 @@
                 <a href="forms/attendance.php" class="btn">Ir al Formulario</a>
             </div>
 
-            <!-- Future cards can be added here -->
-            <div class="card" style="opacity: 0.5;">
-                <h3>Próximamente</h3>
-                <p>Nuevos formatos serán agregados aquí.</p>
-                <button class="btn" disabled style="background-color: #555; cursor: not-allowed;">No disponible</button>
+            <!-- Card for Exit Slip -->
+            <div class="card">
+                <h3>Papeleta de Salida</h3>
+                <p>Genera el formato PDF para la papeleta de salida del personal.</p>
+                <a href="forms/exit_slip.php" class="btn">Ir al Formulario</a>
             </div>
         </div>
     </div>
