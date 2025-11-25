@@ -8,7 +8,7 @@
 </head>
 <body>
     <header>
-        <h1>CONTROL DE ASISTENCIA</h1>
+        <h1>FORMATOS DE SALUD</h1>
         <nav>
             <a href="../index.php">Inicio</a>
         </nav>

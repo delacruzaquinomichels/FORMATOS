@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Control de Asistencia - Principal</title>
+    <title>Formatos de Salud - Principal</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
     <header>
-        <h1>CONTROL DE ASISTENCIA</h1>
+        <h1>FORMATOS DE SALUD</h1>
         <nav>
             <a href="index.php">Inicio</a>
             <!-- Access to other future modules -->

@@ -1,10 +1,18 @@
 <?php
+if (!file_exists('vendor/autoload.php')) {
+    die('<div style="font-family: sans-serif; padding: 20px; background: #ffebee; border: 1px solid #f44336; color: #b71c1c; border-radius: 4px;">
+        <strong>Error:</strong> No se encontraron las librerías necesarias.<br><br>
+        Por favor, asegúrese de haber instalado las dependencias.<br>
+        Si está usando Laragon, abra la terminal en la carpeta del proyecto y ejecute: <code>composer install</code>
+    </div>');
+}
+
 require_once('vendor/autoload.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $year = isset($_POST['year']) ? $_POST['year'] : date('Y');
-    $month = isset($_POST['month']) ? strtoupper($_POST['month']) : 'ENERO';
-    $center_name = isset($_POST['center_name']) ? strtoupper($_POST['center_name']) : '';
+    $year = isset($_POST['year']) ? htmlspecialchars($_POST['year']) : date('Y');
+    $month = isset($_POST['month']) ? strtoupper(htmlspecialchars($_POST['month'])) : 'ENERO';
+    $center_name = isset($_POST['center_name']) ? strtoupper(htmlspecialchars($_POST['center_name'])) : '';
 
     // Create new PDF document
     $pdf = new TCPDF('L', 'mm', 'A4', true, 'UTF-8', false);
@@ -46,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <br>
     <table border="0" cellpadding="0" cellspacing="0" width="100%">
         <tr>
-            <td align="right" style="font-size: 10px;">MES: ' . $month . '...................................................</td>
+            <td align="right" style="font-size: 10px;">MES: ' . $month . '</td>
         </tr>
     </table>
     <br>
@@ -104,12 +112,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     for ($i = 0; $i < 25; $i++) {
         $tbl .= '
             <tr>
-                <td></td><td></td><td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td><td></td><td></td><td></td>
-                <td></td>
+                <td width="3%"></td>
+                <td width="3%"></td>
+                <td width="3%"></td>
+                <td width="25%"></td>
+                <td width="9%"></td>
+                <td width="5%"></td>
+                <td width="6%"></td>
+                <td width="12%"></td>
+                <td width="6%"></td>
+                <td width="12%"></td>
+                <td width="16%"></td>
             </tr>';
     }
 
